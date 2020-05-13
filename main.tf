@@ -145,7 +145,7 @@ resource "aws_route_table" "private_route_table" {
 
   route {
     cidr_block      = "172.30.0.0/16"
-    gateway_id      = "${aws_vpn_gateway.tf_vpn_vgw.id}"
+    gateway_id      = aws_vpn_gateway.vgw.id
   }
 
   tags = {
