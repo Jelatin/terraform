@@ -87,7 +87,9 @@ resource "aws_vpn_connection" "vpn" {
   customer_gateway_id = var.customer_gateway_id
   type                = "ipsec.1"
   static_routes_only  = true
-  tags                = "${var.swarm_name}-vpn"    
+  tags = {
+    Name = "${var.swarm_name}-vpn"
+  }    
 }
 
 resource "aws_vpn_connection_route" "vpn_route" {
