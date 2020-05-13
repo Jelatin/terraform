@@ -63,14 +63,14 @@ resource "aws_vpn_gateway" "vgw" {
 
 resource "aws_eip" "eip_natgw" {
   vpc           = true
-  depends_on    = aws_internet_gateway.gateway.id
+  depends_on    = [aws_internet_gateway.gateway]
   tags          = "${var.swarm_name}-eip-natgw"
 }
 
 resource "aws_nat_gateway" "natgw" {
   allocation_id   = aws_eip.eip_natgw.id
   subnet_id       = aws_subnet.public_subnet.id
-  depends_on      = aws_internet_gateway.gateway
+  depends_on      = [aws_internet_gateway.gateway]
   tags            = "${var.swarm_name}-natgw"
 }
 /*
