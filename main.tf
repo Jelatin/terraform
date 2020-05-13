@@ -73,7 +73,9 @@ resource "aws_nat_gateway" "natgw" {
   allocation_id   = aws_eip.eip_natgw.id
   subnet_id       = aws_subnet.public.id
   depends_on      = [aws_internet_gateway.gateway]
-  tags            = "${var.swarm_name}-natgw"
+  tags = {
+    Name = "${var.swarm_name}-natgw"
+  }
 }
 /*
 resource "aws_customer_gateway" "customer_gateway" {
