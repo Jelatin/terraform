@@ -64,7 +64,9 @@ resource "aws_vpn_gateway" "vgw" {
 resource "aws_eip" "eip_natgw" {
   vpc           = true
   depends_on    = [aws_internet_gateway.gateway]
-  tags          = "${var.swarm_name}-eip-natgw"
+  tags = {
+    Name = "${var.swarm_name}-eip-natgw"
+  }
 }
 
 resource "aws_nat_gateway" "natgw" {
@@ -187,7 +189,7 @@ resource "aws_efs_file_system" "main" {
 resource "aws_efs_mount_target" "main" {
   count           = var.enable_efs ? 1 : 0
   file_system_id  = aws_efs_file_system.main[0].id
-  subnet_id       = aws_subnet.main.id
+  subnet_id       = aws_subnet.private.id
   security_groups = [aws_security_group.efs[0].id]
 }
 
