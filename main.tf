@@ -58,6 +58,7 @@ resource "aws_vpn_gateway" "vgw" {
 
   tags = {
     Name = "${var.swarm_name}-vgw"
+  }
 }
 
 resource "aws_eip" "eip_natgw" {
