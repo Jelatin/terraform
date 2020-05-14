@@ -258,9 +258,10 @@ resource "aws_instance" "worker" {
   }
 }
 
-resource "aws_instance" "backup" {
+resource "aws_instance" "worker" {
   ami                         = var.ami
   availability_zone           = var.availability_zone
+  count                       = var.swarm_backup_count
   instance_type               = var.backup_instance_type
   key_name                    = aws_key_pair.default.id
   subnet_id                   = aws_subnet.private.id
@@ -274,9 +275,10 @@ resource "aws_instance" "backup" {
 
   tags = {
     Name = format(
-      "%s-%s,
+      "%s-%s-%02d",
       var.swarm_name,
-      var.swarm_backup_name
+      var.swarm_backup_name,
+      count.index + 1
     )
     "Node Type" = "${var.swarm_name}-swarm-backup"
   }
