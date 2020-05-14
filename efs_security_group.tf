@@ -5,14 +5,14 @@ resource "aws_security_group" "efs" {
   vpc_id      = var.vpc_id
 
   egress {
-    cidr_blocks = [aws_vpc.main.cidr_block]
+    cidr_blocks = [var.vpc_cidr]
     from_port   = 2049
     to_port     = 2049
     protocol    = "tcp"
   }
 
   ingress {
-    cidr_blocks = [aws_vpc.main.cidr_block]
+    cidr_blocks = [var.vpc_cidr]
     from_port   = 2049
     to_port     = 2049
     protocol    = "tcp"
