@@ -77,7 +77,7 @@ resource "aws_security_group" "aws-common" {
     from_port   = 55051
     to_port     = 55051
     protocol    = "tcp"
-    cidr_blocks = var.vpc_cidr
+    cidr_blocks = [var.vpc_cidr]
   }
 
   # inbound-ssh-sg
