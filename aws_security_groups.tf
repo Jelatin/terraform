@@ -62,6 +62,23 @@ resource "aws_security_group" "aws-common" {
     ipv6_cidr_blocks = ["::/0"]
   }
 
+  # inbound-ssh-sg
+  ingress {
+    description = "TF-For Custom SSH Service"
+    from_port   = 55051
+    to_port     = 55051
+    protocol    = "tcp"
+    cidr_blocks = ["172.30.0.0/16"]
+  }
+
+  # inbound-ssh-sg
+  ingress {
+    description = "TF-For Custom SSH Service"
+    from_port   = 55051
+    to_port     = 55051
+    protocol    = "tcp"
+    cidr_blocks = var.vpc_cidr
+  }
 
   # inbound-ssh-sg
   ingress {
@@ -73,6 +90,7 @@ resource "aws_security_group" "aws-common" {
   }
 
   ingress {
+    description = "TF-For HTTP Service"
     from_port        = 80
     to_port          = 80
     protocol         = "tcp"
@@ -81,6 +99,7 @@ resource "aws_security_group" "aws-common" {
   }
 
   ingress {
+    description = "TF-For HTTPS Service"
     from_port        = 443
     to_port          = 443
     protocol         = "tcp"

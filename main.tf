@@ -53,14 +53,6 @@ resource "aws_internet_gateway" "gateway" {
   }
 }
 
-resource "aws_vpn_gateway" "vgw" {
-  vpc_id = aws_vpc.main.id
-
-  tags = {
-    Name = "${var.swarm_name}-vgw"
-  }
-}
-
 resource "aws_eip" "eip_natgw" {
   vpc           = true
   depends_on    = [aws_internet_gateway.gateway]
@@ -77,30 +69,7 @@ resource "aws_nat_gateway" "natgw" {
     Name = "${var.swarm_name}-natgw"
   }
 }
-/*
-resource "aws_customer_gateway" "customer_gateway" {
-    bgp_asn       = 65000
-    ip_address    = "${var.vpn_ip_address}"
-    type          = "ipsec.1"
-    tags          = "${var.swarm_name}-CG-FORTIGATE"
-}
 
-resource "aws_vpn_connection" "vpn" {
-  vpn_gateway_id      = aws_vpn_gateway.vgw.id
-  #customer_gateway_id = aws_customer_gateway.tf_customer_gateway.id
-  customer_gateway_id = var.customer_gateway_id
-  type                = "ipsec.1"
-  static_routes_only  = true
-  tags = {
-    Name = "${var.swarm_name}-vpn"
-  }    
-}
-
-resource "aws_vpn_connection_route" "vpn_route" {
-  destination_cidr_block  = "172.30.0.0/16"
-  vpn_connection_id       = aws_vpn_connection.vpn.id
-}
-*/
 resource "aws_route_table" "main" {
   vpc_id = aws_vpc.main.id
 

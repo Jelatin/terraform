@@ -58,7 +58,7 @@ variable "backup_instance_type" {
   default     = "t3a.medium"
 }
 
-variable "customer_gateway_id" {
+variable "gateway_id" {
 }
 
 variable "manager_instance_type" {
