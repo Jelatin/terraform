@@ -92,7 +92,7 @@ resource "aws_route_table" "public_route_table" {
 }
 
 resource "aws_main_route_table_association" "main_route" {
-  vpc_id         = aws_vpc.main.id
+  vpc_id         = var.vpc_id
   route_table_id = aws_route_table.main.id
 }
 
