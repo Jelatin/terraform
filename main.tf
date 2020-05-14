@@ -258,7 +258,7 @@ resource "aws_instance" "worker" {
   }
 }
 
-resource "aws_instance" "worker" {
+resource "aws_instance" "backup" {
   ami                         = var.ami
   availability_zone           = var.availability_zone
   count                       = var.swarm_backup_count
