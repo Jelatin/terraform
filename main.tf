@@ -84,7 +84,7 @@ resource "aws_customer_gateway" "customer_gateway" {
     type          = "ipsec.1"
     tags          = "${var.swarm_name}-CG-FORTIGATE"
 }
-*/
+
 resource "aws_vpn_connection" "vpn" {
   vpn_gateway_id      = aws_vpn_gateway.vgw.id
   #customer_gateway_id = aws_customer_gateway.tf_customer_gateway.id
@@ -100,7 +100,7 @@ resource "aws_vpn_connection_route" "vpn_route" {
   destination_cidr_block  = "172.30.0.0/16"
   vpn_connection_id       = aws_vpn_connection.vpn.id
 }
-
+*/
 resource "aws_route_table" "main" {
   vpc_id = aws_vpc.main.id
 

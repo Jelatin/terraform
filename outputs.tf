@@ -24,3 +24,14 @@ output "swarm_worker_ips_private" {
   description = "The worker nodes private ipv4 adresses"
   value       = [aws_instance.worker.*.private_ip]
 }
+
+output "swarm_backup_ips" {
+  description = "The worker backup nodes public ipv4 adresses"
+  value       = [aws_instance.backup.*.public_ip]
+}
+
+output "swarm_backup_ips_private" {
+  description = "The worker backup nodes private ipv4 adresses"
+  value       = [aws_instance.backup.*.private_ip]
+}
+
