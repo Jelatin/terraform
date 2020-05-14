@@ -1,6 +1,6 @@
 resource "aws_security_group" "aws-swarm" {
   name   = "${var.swarm_name}-swarm-security-group"
-  vpc_id = aws_vpc.main.id
+  vpc_id = var.vpc_id
 
   # http-outbound-sg
   egress {
