@@ -201,7 +201,7 @@ resource "aws_instance" "manager" {
   count                       = var.swarm_manager_count
   instance_type               = var.manager_instance_type
   key_name                    = aws_key_pair.default.id
-  subnet_id                   = aws_subnet.private.id
+  subnet_id                   = aws_subnet.public.id
   associate_public_ip_address = true
   vpc_security_group_ids      = local.security_groups
   root_block_device {
@@ -271,6 +271,45 @@ resource "aws_instance" "worker" {
       count.index + 1
     )
     "Node Type" = "${var.swarm_name}-swarm-worker"
+  }
+
+  connection {
+    host    = coalesce(self.public_ip, self.private_ip)
+    type    = "ssh"
+    user    = var.ssh_user
+    timeout = var.connection_timeout
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "echo '127.0.1.1 ${self.tags.Name}' | sudo tee -a /etc/hosts",
+      "sudo hostnamectl set-hostname ${self.tags.Name}",
+      "echo '\n${var.ssh_public_keys}\n' >> /home/ubuntu/.ssh/authorized_keys",
+    ]
+  }
+}
+
+resource "aws_instance" "backup" {
+  ami                         = var.ami
+  availability_zone           = var.availability_zone
+  instance_type               = var.backup_instance_type
+  key_name                    = aws_key_pair.default.id
+  subnet_id                   = aws_subnet.private.id
+  associate_public_ip_address = true
+  vpc_security_group_ids      = local.security_groups
+  root_block_device {
+    volume_type               = "gp2"
+    volume_size               = "30"
+    delete_on_termination     = "true"
+  }
+
+  tags = {
+    Name = format(
+      "%s-%s-%02d",
+      var.swarm_name,
+      var.swarm_backup_name
+    )
+    "Node Type" = "${var.swarm_name}-swarm-backup"
   }
 
   connection {

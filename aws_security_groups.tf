@@ -62,6 +62,7 @@ resource "aws_security_group" "aws-common" {
     ipv6_cidr_blocks = ["::/0"]
   }
 
+
   # inbound-ssh-sg
   ingress {
     from_port        = 22
@@ -92,6 +93,14 @@ resource "aws_security_group" "aws-common" {
     to_port   = 9999
     protocol  = "tcp"
     self      = true
+  }
+
+  ingress {
+    description = "TF-Allow ping"
+    from_port   = 8
+    to_port     = 0
+    protocol    = "icmp"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 }
 

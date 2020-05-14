@@ -53,6 +53,11 @@ variable "availability_zone" {
   default     = "ap-southeast-1a"
 }
 
+variable "backup_instance_type" {
+  description = "Manager instance type"
+  default     = "t3a.medium"
+}
+
 variable "customer_gateway_id" {
 }
 
@@ -72,6 +77,11 @@ variable "subnet_public_cidr" {
 variable "swarm_manager_count" {
   description = "Number of manager nodes"
   default     = 1
+}
+
+variable "swarm_backup_name" {
+  description = "Name to use for naming worker nodes"
+  default     = "backup"
 }
 
 variable "swarm_manager_name" {
