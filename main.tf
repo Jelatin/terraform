@@ -15,20 +15,10 @@ resource "aws_key_pair" "default" {
   public_key = file(var.key_path)
 }
 
-resource "aws_vpc" "main" {
-  cidr_block           = var.vpc_cidr
-  enable_dns_hostnames = true
-  enable_dns_support   = true
-
-  tags = {
-    Name = "${var.swarm_name}-vpc"
-  }
-}
-
 resource "aws_subnet" "public" {
   availability_zone = var.availability_zone
   cidr_block        = var.subnet_public_cidr
-  vpc_id            = aws_vpc.main.id
+  vpc_id            = var.vpc_id
 
   tags = {
     Name = "${var.swarm_name}-subnet-public"
@@ -38,7 +28,7 @@ resource "aws_subnet" "public" {
 resource "aws_subnet" "private" {
   availability_zone = var.availability_zone
   cidr_block        = var.subnet_private_cidr
-  vpc_id            = aws_vpc.main.id
+  vpc_id            = var.vpc_id
 
   tags = {
     Name = "${var.swarm_name}-subnet-private"
@@ -46,7 +36,7 @@ resource "aws_subnet" "private" {
 }
 
 resource "aws_internet_gateway" "gateway" {
-  vpc_id = aws_vpc.main.id
+  vpc_id = var.vpc_id
 
   tags = {
     Name = "${var.swarm_name}-ig"
@@ -71,7 +61,7 @@ resource "aws_nat_gateway" "natgw" {
 }
 
 resource "aws_route_table" "main" {
-  vpc_id = aws_vpc.main.id
+  vpc_id = var.vpc_id
 
   route {
     cidr_block = "0.0.0.0/0"
@@ -84,7 +74,7 @@ resource "aws_route_table" "main" {
 }
 
 resource "aws_route_table" "public_route_table" {
-  vpc_id = aws_vpc.main.id
+  vpc_id = var.vpc_id
 
   route {
     cidr_block = "0.0.0.0/0"
@@ -112,7 +102,7 @@ resource "aws_route_table_association" "public_route" {
 }
 
 resource "aws_route_table" "private_route_table" {
-  vpc_id            = aws_vpc.main.id
+  vpc_id            = var.vpc_id
 
   route {
     cidr_block      = "0.0.0.0/0"

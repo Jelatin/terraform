@@ -111,6 +111,9 @@ variable "vpc_cidr" {
   default = "192.168.0.0/24"
 }
 
+variable "vpc_id" {
+}
+
 variable "worker_instance_type" {
   description = "Worker instance type"
   default     = "t3a.large"
