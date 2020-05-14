@@ -274,7 +274,7 @@ resource "aws_instance" "backup" {
 
   tags = {
     Name = format(
-      "%s-%s-%02d",
+      "%s-%s,
       var.swarm_name,
       var.swarm_backup_name
     )
