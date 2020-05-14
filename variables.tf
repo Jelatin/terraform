@@ -92,6 +92,11 @@ variable "swarm_manager_name" {
 variable "swarm_name" {
 }
 
+variable "swarm_backup_count" {
+  description = "Number of backup nodes"
+  default     = 1
+}
+
 variable "swarm_worker_count" {
   description = "Number of worker nodes"
   default     = 1
